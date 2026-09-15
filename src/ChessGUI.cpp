@@ -1284,9 +1284,6 @@ else
         << std::endl;
 
     board.Print();
-
-    DrawBoard();
-    SDL_RenderPresent(renderer);
 }
 
 } // ปิด if(best.length() >= 4)
