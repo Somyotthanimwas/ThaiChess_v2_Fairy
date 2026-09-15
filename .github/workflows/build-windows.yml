@@ -38,7 +38,11 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path package | Out-Null
           Copy-Item build/Release/ThaiChess.exe package/
-          Copy-Item vcpkg_installed/x64-windows/bin/*.dll package/
+          $vcpkgBin = Join-Path $env:GITHUB_WORKSPACE 'build/vcpkg_installed/x64-windows/bin'
+          if (-not (Test-Path $vcpkgBin)) {
+            throw "vcpkg runtime directory not found: $vcpkgBin"
+          }
+          Copy-Item (Join-Path $vcpkgBin '*.dll') package/
           Copy-Item -Recurse assets package/
           Compress-Archive -Path package/* -DestinationPath ThaiChess-Windows-x64.zip -Force
 
