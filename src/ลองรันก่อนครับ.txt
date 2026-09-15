@@ -1,0 +1,55 @@
+ห้ลองรันก่อนครับ:
+
+cd ~/ThaiChess/build
+make
+./ThaiChess
+
+
+
+uild:
+
+cd ~/ThaiChess_v2/build
+
+cmake ..
+make
+
+./ThaiChess
+
+
+
+รัน:
+
+./ThaiChess
+
+
+
+
+ใช่ครับ กรณีนี้ ควรลบ build เก่าแล้ว Generate ใหม่หนึ่งรอบ ครับ เพราะ CMake/Make บางครั้งอาจใช้ object file เดิม โดยเฉพาะเวลามีการแก้ไฟล์ .cpp เยอะ ๆ
+
+ทำตามนี้ครับ:
+
+cd ~/ThaiChess_v2
+
+rm -rf build
+
+mkdir build
+
+cd build
+
+cmake ..
+
+make
+
+./ThaiChess
+
+หรือถ้าไม่อยากลบทั้งหมด ใช้:
+
+cd ~/ThaiChess_v2/build
+
+make clean
+
+cmake ..
+
+make
+
+./ThaiChess

@@ -1,0 +1,152 @@
+หลังแก้ให้ล้าง build ใหม่:
+
+cd ~/ThaiChess_v2
+
+rm -rf build-win
+
+mkdir build-win
+cd build-win
+
+
+
+ให้รัน
+
+cmake .. \
+  -DCMAKE_SYSTEM_NAME=Windows \
+  -DCMAKE_C_COMPILER=/usr/bin/x86_64-w64-mingw32-gcc \
+  -DCMAKE_CXX_COMPILER=/usr/bin/x86_64-w64-mingw32-g++ \
+  -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake \
+  -DVCPKG_TARGET_TRIPLET=x64-mingw-static
+
+ขั้นต่อไป
+
+Build เลย
+
+make -j$(nproc)
+
+
+ถ้าต้องการ Build แบบ Release จริง
+
+ให้ใช้คำสั่งเต็มที่เราใช้ตอนสร้าง .exe เช่น
+
+cd ~/ThaiChess_v2
+rm -rf build-win
+mkdir build-win
+cd build-win
+
+cmake .. \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_SYSTEM_NAME=Windows \
+  -DCMAKE_C_COMPILER=/usr/bin/x86_64-w64-mingw32-gcc \
+  -DCMAKE_CXX_COMPILER=/usr/bin/x86_64-w64-mingw32-g++ \
+  -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake \
+  -DVCPKG_TARGET_TRIPLET=x64-mingw-static
+
+make -j$(nproc)
+
+
+
+หลังจากสร้าง build-win แล้ว ปกติแก้โค้ด C++ เช่น:
+
+ใช้แค่:
+
+cd ~/ThaiChess_v2/build-win
+make -j$(nproc)
+
+
+
+
+ถ้าต้องการเอาไปไว้ Downloads:
+
+cp ~/ThaiChess_v2/build-win/ThaiChess.exe /mnt/c/Users/Thanimwas/Downloads/ThaiChess_Release/
+
+
+
+cp ~/ThaiChess_v2/build-win/ThaiChess.exe /mnt/c/Users/Thanimwas/Downloads/ThaiChess_Release/
+
+
+
+
+ใช้ Linux
+
+configure:  
+
+cmake .. \
+-DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake \
+-DCMAKE_BUILD_TYPE=Release
+
+build:
+
+make -j$(nproc)
+
+ถ้าสำเร็จควรได้:
+
+[100%] Built target ThaiChess
+
+
+
+
+ให้ทำแบบนี้ในโฟลเดอร์:
+
+cd ~/ThaiChess_v2/assets/pieces
+
+ใช้ชุดคำสั่งนี้:  ลบพื้นสีของรูป
+
+ขุน
+convert wk.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 wk_clean.png
+
+convert bk.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 bk_clean.png
+โคน
+convert wc.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 wc_clean.png
+
+convert bc.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 bc_clean.png
+
+เม็ด
+convert wm.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 wm_clean.png
+
+convert bm.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 bm_clean.png
+ม้า
+convert wn.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 wn_clean.png
+
+convert bn.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 bn_clean.png
+เรือ
+convert wr.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 wr_clean.png
+
+convert br.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 br_clean.png
+เบี้ย
+convert wp.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 wp_clean.png
+
+convert bp.png -alpha on -bordercolor white -border 1 \
+-fuzz 25% -fill none -draw "matte 0,0 floodfill" \
+-shave 1x1 bp_clean.png
+
+
+เมื่อดูแล้วสวย ให้แทนไฟล์เดิม เช่น:
+
+mv wk_clean.png wk.png
+mv bk_clean.png bk.png
+
+ทำกับตัวอื่นเหมือนกัน
+

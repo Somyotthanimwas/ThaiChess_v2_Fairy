@@ -1,0 +1,36 @@
+# CMake build directories
+build/
+build-win/
+
+# Build artifacts
+*.exe
+*.obj
+*.o
+*.a
+*.lib
+*.dll
+*.res
+*.rsp
+*.pdb
+*.ilk
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+
+# Windows metadata
+*:Zone.Identifier
+*.Zone.Identifier
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Windows Zone metadata
+*:Zone*
