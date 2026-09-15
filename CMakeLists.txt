@@ -25,7 +25,7 @@ add_executable(ThaiChessApp
     src/FairyEngine.cpp
     src/ThaiChess.rc
 )
-add_executable(ThaiChess src/launcher.cpp)
+add_executable(ThaiChess src/launcher.cpp/launcher.cpp)
 target_compile_definitions(ThaiChessApp PRIVATE SDL_MAIN_HANDLED)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
