@@ -33,11 +33,13 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path package | Out-Null
           Copy-Item build/Release/ThaiChess.exe package/
+          Copy-Item build/Release/ThaiChessApp.exe package/
+          New-Item -ItemType Directory -Force -Path package/runtime | Out-Null
           $vcpkgBin = Join-Path $env:GITHUB_WORKSPACE 'build/vcpkg_installed/x64-windows/bin'
           if (-not (Test-Path $vcpkgBin)) {
             throw "vcpkg runtime directory not found: $vcpkgBin"
           }
-          Copy-Item (Join-Path $vcpkgBin '*.dll') package/
+          Copy-Item (Join-Path $vcpkgBin '*.dll') package/runtime/
           Invoke-WebRequest `
             -Uri 'https://github.com/fairy-stockfish/Fairy-Stockfish/releases/latest/download/fairy-stockfish-largeboard_x86-64.exe' `
             -OutFile 'package/stockfish.exe'
