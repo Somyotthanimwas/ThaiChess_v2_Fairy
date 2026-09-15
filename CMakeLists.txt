@@ -1,21 +1,18 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
-project(ThaiChess)
-
-
+project(ThaiChess LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(include)
 
-add_compile_options(
-    -finput-charset=UTF-8
-    -fexec-charset=UTF-8
-)
+if (MINGW OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-finput-charset=UTF-8 -fexec-charset=UTF-8)
+endif()
 
-add_executable(
-    ThaiChess
-       # WIN32
+add_executable(ThaiChess
     src/main.cpp
     src/Board.cpp
     src/AI.cpp
@@ -31,29 +28,36 @@ add_executable(
     src/TestEngine.cpp
     src/ChessGUI.cpp
     src/FairyEngine.cpp
-         src/ThaiChess.rc
+    src/ThaiChess.rc
 )
 
-
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-
+# The source defines SDL_MAIN_HANDLED, so SDL2main is not required.
+target_compile_definitions(ThaiChess PRIVATE SDL_MAIN_HANDLED)
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(SDL2_image CONFIG REQUIRED)
 
-link_directories(
-    $ENV{HOME}/vcpkg/installed/x64-mingw-static/lib
-)
-
-target_compile_definitions(
-    ThaiChess PRIVATE
-    SDL_MAIN_HANDLED
-)
-
-target_link_libraries(ThaiChess
+target_link_libraries(ThaiChess PRIVATE
     SDL2::SDL2
-    SDL2_ttf::SDL2_ttf-static
-         SDL2_image::SDL2_image-static
-
+    SDL2_ttf::SDL2_ttf
+    SDL2_image::SDL2_image
 )
+
+# Keep runtime files next to the executable for both local builds and CI artifacts.
+add_custom_command(TARGET ThaiChess POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets"
+            "$<TARGET_FILE_DIR:ThaiChess>/assets"
+)
+
+if (WIN32)
+    set_target_properties(ThaiChess PROPERTIES WIN32_EXECUTABLE TRUE)
+endif()
+
+install(TARGETS ThaiChess RUNTIME DESTINATION .)
+install(DIRECTORY assets DESTINATION .)
+
+set(CPACK_GENERATOR ZIP)
+set(CPACK_PACKAGE_FILE_NAME "ThaiChess-Windows-${CMAKE_SYSTEM_PROCESSOR}")
+include(CPack)
