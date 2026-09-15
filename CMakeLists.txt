@@ -52,7 +52,6 @@ add_custom_command(TARGET ThaiChess POST_BUILD
 )
 
 if (WIN32)
-    set_target_properties(ThaiChess PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
 
 install(TARGETS ThaiChess RUNTIME DESTINATION .)
